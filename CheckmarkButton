@@ -1,1 +1,42 @@
+//
+//  CheckmarkButton.swift
+//  SwiftUIComponents
+//
+//  Created by Dulanja on 2025-10-22.
+//
+
+import SwiftUI
+
+struct CheckmarkButton: View {
+    
+    var isShow: Bool = true
+    var disableButton: Bool = false
+    var size: CGFloat = 30
+    var onTap: () -> Void = {}
+    var checkedColor: Color = .primary
+    var uncheckedColor: Color = .primary
+    @State private var isChecked: Bool = false
+    
+    var body: some View {
+        if isShow {
+            Button(action: {
+                guard !disableButton else { return }
+                isChecked.toggle()
+                onTap()
+            }) {
+                Image(systemName: isChecked ? "checkmark.square.fill" : "square")
+                    .font(.system(size: size))
+                    .foregroundColor(isChecked ? checkedColor : uncheckedColor)
+                    .opacity(disableButton ? 0.5 : 1.0)
+            }
+            .buttonStyle(PlainButtonStyle())
+            .frame(width:size, height:size)
+            .disabled(disableButton)
+        }
+    }
+}
+
+#Preview {
+    CheckmarkButton()
+}
 
