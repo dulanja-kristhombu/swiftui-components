@@ -1,0 +1,48 @@
+//
+//  ImageButton.swift
+//  SwiftUIComponents
+//
+//  Created by Dulanja on 2025-12-06.
+//
+
+import SwiftUI
+
+struct ImageButton: View {
+    
+    var isShow: Bool = true
+    var imageName: AppImage
+    var fontSize: CGFloat = 30
+    var minTouchSize: CGFloat = 40
+    var isDisabled: Bool = false
+    var onTap: () -> Void
+
+    var body: some View {
+        if isShow {
+            Button(action: {
+                if !isDisabled {
+                    onTap()
+                }
+            }) {
+                Image(imageName.getImageName)
+                    .resizable()
+                    .scaledToFit()
+                    .font(.system(size: fontSize))
+                    .frame(width: fontSize, height: fontSize)
+                    .contentShape(Rectangle())
+            }
+            .frame(minWidth: minTouchSize, minHeight: minTouchSize)
+            .disabled(isDisabled)
+            .opacity(isDisabled ? 0.5 : 1.0)
+            
+        } else {
+            EmptyView()
+        }
+    }
+}
+
+#Preview {
+    ImageButton(
+        imageName: .dsLogoGreen,
+        onTap: {}
+    )
+}
