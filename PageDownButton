@@ -1,0 +1,66 @@
+//
+//  PageDownButton.swift
+//  SwiftUIComponents
+//
+//  Created by Dulanja on 2026-01-07.
+//
+
+import SwiftUI
+
+struct PageDownButton: View {
+    
+    var isShow: Bool = true
+    var isDisabled: Bool = false
+    var width: CGFloat? = 50
+    var height: CGFloat? = 35
+    var onTap: () -> Void
+    @State private var isDownIcon = true
+    
+    var body: some View {
+        if isShow {
+            Button(action: {
+                if !isDisabled {
+                    withAnimation(.interpolatingSpring(stiffness: 300, damping: 15)) {
+                        isDownIcon.toggle()
+                    }
+                    onTap()
+                }
+            }) {
+                ZStack {
+                    Image(systemName: "chevron.down")
+                        .font(.system(size: 30))
+                        .padding()
+                        .foregroundColor(.white)
+                        .opacity(isDownIcon ? 1 : 0)
+                        .rotationEffect(.degrees(isDownIcon ? 0 : -90))
+                        .scaleEffect(isDownIcon ? 1 : 0.5)
+                    
+                    Image(systemName: "chevron.up")
+                        .font(.system(size: 30))
+                        .padding()
+                        .foregroundColor(.white)
+                        .opacity(isDownIcon ? 0 : 1)
+                        .rotationEffect(.degrees(isDownIcon ? 90 : 0))
+                        .scaleEffect(isDownIcon ? 0.5 : 1)
+                }
+                .animation(.spring(response: 0.4, dampingFraction: 0.7), value: isDownIcon)
+            }
+            .disabled(isDisabled)
+            .frame(width: width, height: height)
+            .background(Color.green)
+            .cornerRadius(10)
+            .opacity(isDisabled ? 0.5 : 1)
+            
+        } else {
+            EmptyView()
+        }
+    }
+}
+
+#Preview {
+    PageDownButton(
+        onTap: {
+            
+        }
+    )
+}
