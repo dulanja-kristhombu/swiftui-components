@@ -1,0 +1,66 @@
+//
+//  PageUpButton.swift
+//  SwiftUIComponents
+//
+//  Created by Dulanja on 2026-01-07.
+//
+
+import SwiftUI
+
+struct PageUpButton: View {
+    
+    var isShow: Bool = true
+    var isDisabled: Bool = false
+    var width: CGFloat? = 50
+    var height: CGFloat? = 35
+    var onTap: () -> Void
+    @State private var isUpIcon = true
+    
+    var body: some View {
+        if isShow {
+            Button(action: {
+                if !isDisabled {
+                    withAnimation(.interpolatingSpring(stiffness: 300, damping: 15)) {
+                        isUpIcon.toggle()
+                    }
+                    onTap()
+                }
+            }) {
+                ZStack {
+                    Image(systemName: "chevron.up")
+                        .font(.system(size: 30))
+                        .padding()
+                        .foregroundColor(.white)
+                        .opacity(isUpIcon ? 1 : 0)
+                        .rotationEffect(.degrees(isUpIcon ? 0 : -90))
+                        .scaleEffect(isUpIcon ? 1 : 0.5)
+                    
+                    Image(systemName: "chevron.down")
+                        .font(.system(size: 30))
+                        .padding()
+                        .foregroundColor(.white)
+                        .opacity(isUpIcon ? 0 : 1)
+                        .rotationEffect(.degrees(isUpIcon ? 90 : 0))
+                        .scaleEffect(isUpIcon ? 0.5 : 1)
+                }
+                .animation(.spring(response: 0.4, dampingFraction: 0.7), value: isUpIcon)
+            }
+            .disabled(isDisabled)
+            .frame(width: width, height: height)
+            .background(Color.pink)
+            .cornerRadius(10)
+            .opacity(isDisabled ? 0.5 : 1)
+            
+        } else {
+            EmptyView()
+        }
+    }
+}
+
+#Preview {
+    PageUpButton(
+        onTap: {
+            
+        }
+    )
+}
